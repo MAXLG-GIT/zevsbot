@@ -22,9 +22,11 @@ func Init(imgRedactor domain_interfaces.ImageProcessing) domain_interfaces.Barco
 func (bc barCodeStr) ReadImage(img *image.Image) (string, error) {
 
 	// ----------- START barcode decoder
-
+	newWidth := (*img).Bounds().Dx()
+	newHeight := (*img).Bounds().Dy() * 2
 	// 1. Create a new filter list and add some filters.
 	g := gift.New(
+		gift.Resize(newWidth, newHeight, gift.LanczosResampling),
 		gift.Median(3, false),
 	)
 
